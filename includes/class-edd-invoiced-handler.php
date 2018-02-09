@@ -51,10 +51,11 @@
 			 * @var $payment EDD_Payment | false
 			 */
 
-			if ($payment_id === false)
+			if ($payment_id === false) {
 				return "Payment not valid";
+			}
 
-			$products = edd_get_payment_meta_cart_details($payment_id);
+			$products         = edd_get_payment_meta_cart_details($payment_id);
 			$invd_sequence_no = get_post_meta($payment_id, "invd_sequence_no", true);
 
 			$items = array();
@@ -73,9 +74,11 @@
 			}
 
 			$user         = edd_get_payment_meta_user_info($payment_id);
+			$customer_id  = edd_get_payment_customer_id($payment_id);
+			$customer     = new EDD_Customer($customer_id);
 			$business_vat = edd_get_payment_meta($payment_id, "_edd_payment_meta")["edd_edd-ecf_0"];
 
-			$to = $user["first_name"] . "\n" .
+			$to = $customer->name . "\n" .
 			      "P.IVA / CF: " . $business_vat . "\n" .
 			      $user["email"] . "\n" .
 			      $user["address"]["line1"] . "\n" .
@@ -91,7 +94,7 @@
 				"number"   => $invoice_no,
 				"date"     => date(get_option('date_format'), strtotime(edd_get_payment_completed_date($payment_id))),
 				"items"    => $items,
-				"tax"      => edd_get_tax_rate()*100,
+				"tax"      => edd_get_tax_rate() * 100,
 				"currency" => edd_get_currency(),
 				"fields"   => array(
 					"tax"       => "%",
@@ -106,8 +109,9 @@
 				}
 			}
 
-			if ($discount > 0)
+			if ($discount > 0) {
 				$data["discounts"] = $discount;
+			}
 
 			$request = wp_remote_post(EDD_INVOICE_ENDPOINT, array(
 				'headers' => array('Content-Type' => 'application/json; charset=utf-8'),
@@ -140,45 +144,53 @@
 			}
 		}
 
-		public function check_sync(){
+		public function check_sync()
+		{
 			?>
-				<div class="notice notice-error is-dismissible">
-					<p><?php _e( 'You cannot use the plugin', 'edd-invoiced-plugin'); ?> <strong>EDD Invoiced</strong> <?php _e( 'without sync all of the payments with the invoice system.', 'edd-invoiced-plugin' ); ?></p>
-					<p><?php _e( 'Start sync now.', 'edd-invoiced-plugin'); ?> <button class="button button-secondary" id="edd_invd_first_sync"><?php _e("Start!", "edd-invoiced-plugin"); ?></button></p>
-				</div>
+            <div class="notice notice-error is-dismissible">
+                <p><?php _e('You cannot use the plugin', 'edd-invoiced-plugin'); ?> <strong>EDD
+                        Invoiced</strong> <?php _e('without sync all of the payments with the invoice system.',
+						'edd-invoiced-plugin'); ?></p>
+                <p><?php _e('Start sync now.', 'edd-invoiced-plugin'); ?>
+                    <button class="button button-secondary" id="edd_invd_first_sync"><?php _e("Start!",
+							"edd-invoiced-plugin"); ?></button>
+                </p>
+            </div>
 			<?php
 		}
 
-		public function edd_invd_sync_orders(){
+		public function edd_invd_sync_orders()
+		{
 			wp_doing_ajax();
 
-			$date = NULL;
+			$date = null;
 
 			$payments = edd_get_payments(array(
-				"order" => "ASC",
+				"order"  => "ASC",
 				"number" => -1,
 				"status" => "publish"
 			));
 
-			$date = NULL;
+			$date     = null;
 			$position = 1;
 
-			foreach ($payments as $payment){
+			foreach ($payments as $payment) {
 
-				if ($payment->ID == 0)
+				if ($payment->ID == 0) {
 					continue;
+				}
 
 				$year = date("Y", strtotime(edd_get_payment_completed_date($payment->ID)));
-				if ($year !== $date ) {
-					$date = $year;
+				if ($year !== $date) {
+					$date     = $year;
 					$position = 1;
-				}
-				else
+				} else {
 					$position++;
+				}
 
 				update_post_meta($payment->ID, "invd_sequence_no", $position);
 				update_post_meta($payment->ID, "invd_sequence_year", $year);
-				update_post_meta($payment->ID, "invd_downloaded", FALSE);
+				update_post_meta($payment->ID, "invd_downloaded", false);
 
 			}
 
@@ -186,38 +198,40 @@
 
 		}
 
-		public function add_js_script(){
+		public function add_js_script()
+		{
 			?>
-			<script type="text/javascript">
-				jQuery(function($){
-				    $("#edd_invd_first_sync").on("click", function(){
+            <script type="text/javascript">
+                jQuery(function ($) {
+                    $("#edd_invd_first_sync").on("click", function () {
 
-				        $("#edd_invd_first_sync").prop("disabled", true);
-				        $("#edd_invd_first_sync").text("<?php _e("Loading...", "edd-invoiced-plugin"); ?>");
+                        $("#edd_invd_first_sync").prop("disabled", true);
+                        $("#edd_invd_first_sync").text("<?php _e("Loading...", "edd-invoiced-plugin"); ?>");
 
-				        $.ajax({
-					        'type' : 'POST',
-					        'dataType' : 'json',
-					        'url' : '<?php echo admin_url("admin-ajax.php"); ?>',
-					        'async' : true,
-					        'data' : {
-					            'action' : 'edd_invd_sync_orders'
-					        },
-					        'success' : function(){
-								location.reload();
-					        },
-					        'error' : function(){
-						        alert("<?php _e("Error while executing the first sync, please retry!", "edd-invoiced-plugin"); ?>");
-					        },
-					        'complete': function(){
+                        $.ajax({
+                            'type': 'POST',
+                            'dataType': 'json',
+                            'url': '<?php echo admin_url("admin-ajax.php"); ?>',
+                            'async': true,
+                            'data': {
+                                'action': 'edd_invd_sync_orders'
+                            },
+                            'success': function () {
+                                location.reload();
+                            },
+                            'error': function () {
+                                alert("<?php _e("Error while executing the first sync, please retry!",
+									"edd-invoiced-plugin"); ?>");
+                            },
+                            'complete': function () {
                                 $("#edd_invd_first_sync").prop("disabled", false);
                                 $("#edd_invd_first_sync").text("<?php _e("Start!", "edd-invoiced-plugin"); ?>");
-					        }
-				        });
+                            }
+                        });
 
-				    });
-				});
-			</script>
+                    });
+                });
+            </script>
 			<?php
 		}
 
@@ -226,15 +240,14 @@
 
 			$start_sync = edd_get_option("invd_start_sync");
 
-			if (!empty($start_sync)) {
+			if ( ! empty($start_sync)) {
 
 				add_filter('edd_settings_sections_extensions', array($this->settings, 'section'), 10, 1);
 				add_filter('edd_settings_extensions', array($this->settings, 'extension'));
 				add_filter("edd_payment_row_actions", array($this, 'add_invoice_link'), 10, 2);
 				add_action('rest_api_init', array($this, 'rest_api'));
 
-			}
-			else {
+			} else {
 				add_action('admin_notices', array($this, 'check_sync'));
 				add_action('wp_ajax_edd_invd_sync_orders', array($this, 'edd_invd_sync_orders'));
 				add_action("admin_head", array($this, "add_js_script"));
