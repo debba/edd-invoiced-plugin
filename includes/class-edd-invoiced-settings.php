@@ -9,6 +9,15 @@
 
 		private static $instance;
 
+		private function get_required_fields(){
+			$req = array();
+			$fields = edd_purchase_form_required_fields();
+			foreach ($fields as $field_name => $field){
+				$req[$field_name] = $field_name;
+			}
+			return $req;
+		}
+
 		public function extension($settings)
 		{
 
@@ -53,13 +62,25 @@
 						'edd-invoiced-plugin')
 				),
 				array(
+					'id'   => $this->edd_invoice_setting_id('spfield'),
+					'name' => '<strong>' . __('Special fields', 'edd_invoiced_plugin') . '</strong>',
+					'desc' => '',
+					'type' => 'header',
+					'size' => 'regular'
+				),
+				array(
+					'id'   => $this->edd_invoice_setting_id('cf_field'),
+					'name' => __('Field that indicates your business VAT number.'),
+					'type' => 'select',
+					'options' => $this->get_required_fields()
+				),
+				array(
 					'id'   => $this->edd_invoice_setting_id('inv_trans'),
 					'name' => '<strong>' . __('Translations', 'edd_invoiced_plugin') . '</strong>',
 					'desc' => '',
 					'type' => 'header',
 					'size' => 'regular'
-				),
-
+				)
 			);
 
 			foreach ($EDDINVTRANS as $id => $name){

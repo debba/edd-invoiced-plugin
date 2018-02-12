@@ -76,7 +76,7 @@
 			$user         = edd_get_payment_meta_user_info($payment_id);
 			$customer_id  = edd_get_payment_customer_id($payment_id);
 			$customer     = new EDD_Customer($customer_id);
-			$business_vat = edd_get_payment_meta($payment_id, "_edd_payment_meta")["edd_edd-ecf_0"];
+			$business_vat = edd_get_payment_meta($payment_id, "_edd_payment_meta")[edd_get_option("edd_invd_cf_field")];
 
 			$to = $customer->name . "\n" .
 			      "P.IVA / CF: " . $business_vat . "\n" .
