@@ -235,6 +235,10 @@
 			<?php
 		}
 
+		public function save_pdf($payment_id, \EDD_Payment $payment){
+		    die("CIAO");
+        }
+
 		public function hooks()
 		{
 
@@ -244,6 +248,7 @@
 
 				add_filter('edd_settings_sections_extensions', array($this->settings, 'section'), 10, 1);
 				add_filter('edd_settings_extensions', array($this->settings, 'extension'));
+				//add_action('edd_payment_saved', array($this, 'save_pdf'), 10, 2);
 				add_filter("edd_payment_row_actions", array($this, 'add_invoice_link'), 10, 2);
 				add_action('rest_api_init', array($this, 'rest_api'));
 
