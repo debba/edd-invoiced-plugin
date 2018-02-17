@@ -54,12 +54,11 @@
 			$products = edd_get_payment_meta_cart_details( $payment_id );
 
 			$invd_sequence_no = get_post_meta( $payment_id, "invd_sequence_no", true );
+			$invd_year        = (int) date( "Y", strtotime( edd_get_payment_completed_date( $payment_id ) ) );
 
 			if ( empty( $invd_sequence_no ) ) {
 				$invd_last_sequence_no   = edd_get_option( "invd_last_sequence_no" );
 				$invd_last_sequence_year = (int) edd_get_option( "invd_last_sequence_year" );
-
-				$invd_year = (int) date( "Y", strtotime( edd_get_payment_completed_date( $payment_id ) ) );
 
 				if ( $invd_year > $invd_last_sequence_year ) {
 					edd_update_option( "invd_last_sequence_no", 1 );
@@ -122,12 +121,8 @@
 			);
 
 			foreach ( $EDDINVTRANS as $trans => $value ) {
-				if ( $trans === "header" ) {
-					continue;
-				}
 
-
-				$invd = edd_get_option( "invd_" . $trans );
+				$invd = edd_get_option( "edd_invd_" . $trans );
 
 				if ( ! empty( $invd ) ) {
 					$data[ $trans ] = $invd;
@@ -145,10 +140,35 @@
 				'method'  => 'POST'
 			) );
 
+			$filename = "invoice-" . $invoice_no . ".pdf";
+
 			if ( ! is_wp_error( $request ) ) {
 				header( "Content-type:application/pdf" );
-				header( "Content-Disposition:attachment;filename=invoice-" . $invoice_no . ".pdf" );
-				die( wp_remote_retrieve_body( $request ) );
+				header( "Content-Disposition:attachment;filename=" . $filename );
+
+				$pdf           = wp_remote_retrieve_body( $request );
+
+				/*$body          = wp_upload_bits( basename( $filename ), '', $pdf );
+
+				$attachment = [
+					'post_status'    => 'inherit',
+					'post_mime_type' => $body->type,
+					'parent_id'      => $payment_id,
+					'post_title'     => __( 'Invoice n. ' . $invoice_no . " / " . $invd_year, 'edd-invoiced-plugin' )
+				];
+
+				$attachment_id = wp_insert_attachment( $attachment, $body['file'], $payment_id );
+
+				// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+				// Generate the metadata for the attachment, and update the database record.
+
+				$attach_data = wp_generate_attachment_metadata( $attachment_id, $body['file'] );
+				wp_update_attachment_metadata( $attachment_id, $attach_data );*/
+
+				die( $pdf );
+
 			}
 
 			die( $request->get_error_message() );
@@ -284,22 +304,15 @@
 			<?php
 		}
 
-		public function save_pdf( $payment_id, \EDD_Payment $payment ) {
-			die( "CIAO" );
-		}
-
 		public function hooks() {
 
 			$start_sync = edd_get_option( "invd_start_sync" );
 
 			if ( ! empty( $start_sync ) ) {
-
 				add_filter( 'edd_settings_sections_extensions', array( $this->settings, 'section' ), 10, 1 );
 				add_filter( 'edd_settings_extensions', array( $this->settings, 'extension' ) );
-				//add_action('edd_payment_saved', array($this, 'save_pdf'), 10, 2);
 				add_filter( "edd_payment_row_actions", array( $this, 'add_invoice_link' ), 10, 2 );
 				add_action( 'rest_api_init', array( $this, 'rest_api' ) );
-
 			} else {
 				add_action( 'admin_notices', array( $this, 'check_sync' ) );
 				add_action( 'wp_ajax_edd_invd_sync_orders', array( $this, 'edd_invd_sync_orders' ) );
