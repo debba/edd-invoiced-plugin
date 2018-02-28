@@ -63,20 +63,20 @@
 				),
 				array(
 					'id'   => $this->edd_invoice_setting_id('spfield'),
-					'name' => '<strong>' . __('Special fields', 'edd_invoiced_plugin') . '</strong>',
+					'name' => '<strong>' . __('Special fields', 'edd-invoiced-plugin') . '</strong>',
 					'desc' => '',
 					'type' => 'header',
 					'size' => 'regular'
 				),
 				array(
 					'id'   => $this->edd_invoice_setting_id('cf_field'),
-					'name' => __('Field that indicates your business VAT number.'),
+					'name' => __('Field that indicates your business VAT number.', 'edd-invoiced-plugin'),
 					'type' => 'select',
 					'options' => $this->get_required_fields()
 				),
 				array(
 					'id'   => $this->edd_invoice_setting_id('inv_trans'),
-					'name' => '<strong>' . __('Translations', 'edd_invoiced_plugin') . '</strong>',
+					'name' => '<strong>' . __('Translations', 'edd-invoiced-plugin') . '</strong>',
 					'desc' => '',
 					'type' => 'header',
 					'size' => 'regular'
@@ -103,7 +103,7 @@
 
 		public function section($sections)
 		{
-			$sections['invoices'] = __('Invoices', 'edd_invoiced_plugin');
+			$sections['invoices'] = __('Invoices', 'edd-invoiced-plugin');
 
 			return $sections;
 		}

@@ -111,7 +111,7 @@
 				"date"     => date( get_option( 'date_format' ),
 					strtotime( edd_get_payment_completed_date( $payment_id ) ) ),
 				"items"    => $items,
-				"tax"      => edd_get_tax_rate() * 100,
+				"tax"      => edd_get_payment_tax( $payment_id ) * 100,
 				"currency" => edd_get_currency(),
 				"fields"   => array(
 					"tax"       => "%",
@@ -119,6 +119,10 @@
 					"shipping"  => false
 				)
 			);
+
+			if ( (int) edd_get_payment_tax( $payment_id ) === 0 && edd_get_shop_country() == "IT" ) {
+				$data["terms"] = "Operazione esente iva art. 7 TER DPR  633/72 inversione contabile.";
+			}
 
 			foreach ( $EDDINVTRANS as $trans => $value ) {
 
@@ -146,7 +150,7 @@
 				header( "Content-type:application/pdf" );
 				header( "Content-Disposition:attachment;filename=" . $filename );
 
-				$pdf           = wp_remote_retrieve_body( $request );
+				$pdf = wp_remote_retrieve_body( $request );
 
 				/*$body          = wp_upload_bits( basename( $filename ), '', $pdf );
 
