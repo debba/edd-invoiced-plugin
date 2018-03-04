@@ -108,6 +108,10 @@
 			return $sections;
 		}
 
+		public function add_content(){
+			do_action('ei_footer_copyright');
+		}
+
 		public static function get_instance()
 		{
 			if (empty(self::$instance) && ! (self::$instance instanceof EDD_Invoiced_Settings)) {

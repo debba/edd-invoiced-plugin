@@ -1,99 +1,99 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Edd Invoiced Plugin\n"
-"POT-Creation-Date: 2018-02-28 10:42+0100\n"
-"PO-Revision-Date: 2018-02-28 10:48+0100\n"
+"POT-Creation-Date: 2018-03-04 11:36+0100\n"
+"PO-Revision-Date: 2018-03-04 11:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: edd-invoiced-plugin.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: edd-invoiced-plugin.php:39
+#: edd-invoiced-plugin.php:41
 msgid "INVOICE"
 msgstr "FATTURA"
 
-#: edd-invoiced-plugin.php:40
+#: edd-invoiced-plugin.php:42
 msgid "Client"
 msgstr "Cliente"
 
-#: edd-invoiced-plugin.php:42
+#: edd-invoiced-plugin.php:44
 msgid "Date"
 msgstr "Data"
 
-#: edd-invoiced-plugin.php:43
+#: edd-invoiced-plugin.php:45
 msgid "Payment Terms"
 msgstr "Modalità di pagamento"
 
-#: edd-invoiced-plugin.php:44
+#: edd-invoiced-plugin.php:46
 msgid "Due Date"
 msgstr "Scadenza"
 
-#: edd-invoiced-plugin.php:45
+#: edd-invoiced-plugin.php:47
 msgid "Purchase Order"
 msgstr "Ordine"
 
-#: edd-invoiced-plugin.php:46
+#: edd-invoiced-plugin.php:48
 msgid "Quantity Order"
 msgstr "Quantità"
 
-#: edd-invoiced-plugin.php:47
+#: edd-invoiced-plugin.php:49
 msgid "Item"
 msgstr "Articolo"
 
-#: edd-invoiced-plugin.php:48
+#: edd-invoiced-plugin.php:50
 msgid "Rate"
 msgstr "Valuta"
 
-#: edd-invoiced-plugin.php:49
+#: edd-invoiced-plugin.php:51
 msgid "Amount"
 msgstr "Totale"
 
-#: edd-invoiced-plugin.php:50
+#: edd-invoiced-plugin.php:52
 msgid "Subtotal"
 msgstr "Subtotale"
 
-#: edd-invoiced-plugin.php:51
+#: edd-invoiced-plugin.php:53
 msgid "Discounts"
 msgstr "Sconti"
 
-#: edd-invoiced-plugin.php:52
+#: edd-invoiced-plugin.php:54
 msgid "Tax"
 msgstr "Tasse"
 
-#: edd-invoiced-plugin.php:53
+#: edd-invoiced-plugin.php:55
 msgid "Shipping"
 msgstr "Spedizione"
 
-#: edd-invoiced-plugin.php:54
+#: edd-invoiced-plugin.php:56
 msgid "Total"
 msgstr "Totale "
 
-#: edd-invoiced-plugin.php:55
+#: edd-invoiced-plugin.php:57
 msgid "Amount Paid"
 msgstr "Importo pagato"
 
-#: edd-invoiced-plugin.php:56
+#: edd-invoiced-plugin.php:58
 msgid "Balance"
 msgstr "Saldo"
 
-#: edd-invoiced-plugin.php:57
+#: edd-invoiced-plugin.php:59
 msgid "Terms"
 msgstr "Termini e Condizioni"
 
-#: edd-invoiced-plugin.php:58
+#: edd-invoiced-plugin.php:60
 msgid "Notes"
 msgstr "Note"
 
@@ -101,31 +101,46 @@ msgstr "Note"
 msgid "Invoice"
 msgstr "Fattura"
 
-#: includes/class-edd-invoiced-handler.php:199
+#: includes/class-edd-invoiced-handler.php:180
 msgid "You cannot use the plugin"
 msgstr "Non puoi usare il plugin"
 
-#: includes/class-edd-invoiced-handler.php:200
+#: includes/class-edd-invoiced-handler.php:181
 msgid "without sync all of the payments with the invoice system."
-msgstr ""
-"senza sincronizzare tutti i pagamenti con il sistema di fatturazione."
+msgstr "senza sincronizzare tutti i pagamenti con il sistema di fatturazione."
 
-#: includes/class-edd-invoiced-handler.php:202
+#: includes/class-edd-invoiced-handler.php:183
 msgid "Start sync now."
 msgstr "Avvia sincronizzazione ora"
 
-#: includes/class-edd-invoiced-handler.php:203
-#: includes/class-edd-invoiced-handler.php:301
+#: includes/class-edd-invoiced-handler.php:184
+#: includes/class-edd-invoiced-handler.php:282
 msgid "Start!"
 msgstr "Inizia subito!"
 
-#: includes/class-edd-invoiced-handler.php:282
+#: includes/class-edd-invoiced-handler.php:263
 msgid "Loading..."
 msgstr "Caricamento..."
 
-#: includes/class-edd-invoiced-handler.php:296
+#: includes/class-edd-invoiced-handler.php:277
 msgid "Error while executing the first sync, please retry!"
 msgstr "Errore durante l'esecuzione della prima sincronizzazione, riprova!"
+
+#: includes/class-edd-invoiced-handler.php:302
+msgid ""
+"This plugin requires <a href=\"https://it.wordpress.org/plugins/easy-digital-"
+"downloads/\">Easy Digital Downloads</a> plugin to be active!"
+msgstr ""
+"Questo plugin richiede <a href=\"https://it.wordpress.org/plugins/easy-"
+"digital-downloads/\">Easy Digital Downloads</a> per essere attivo!"
+
+#: includes/class-edd-invoiced-handler.php:309
+msgid "This plugin is powered by"
+msgstr "Questo plugin è stato creato da"
+
+#: includes/class-edd-invoiced-handler.php:317
+msgid "General Settings"
+msgstr "Impostazioni Generali"
 
 #: includes/class-edd-invoiced-settings.php:29
 #: includes/class-edd-invoiced-settings.php:106
@@ -196,11 +211,6 @@ msgstr "Traduzioni"
 msgid "Edd Invoiced Plugin"
 msgstr "Edd Invoiced Plugin"
 
-#. Plugin URI of the plugin/theme
-#. Author URI of the plugin/theme
-msgid "https://www.dueclic.com"
-msgstr "https://www.dueclic.com"
-
 #. Description of the plugin/theme
 msgid "Invoice generator for EDD using invoice-generator.com"
 msgstr ""
@@ -209,3 +219,7 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "dueclic"
 msgstr "dueclic"
+
+#. Author URI of the plugin/theme
+msgid "https://www.dueclic.com"
+msgstr "https://www.dueclic.com"
