@@ -52,12 +52,11 @@ final class Edd_Invoiced_Handler {
 		}
 
 		$products = edd_get_payment_meta_cart_details( $payment_id );
-
 		$invd_sequence_no = get_post_meta( $payment_id, "invd_sequence_no", true );
 		$invd_year        = (int) date( "Y", strtotime( edd_get_payment_completed_date( $payment_id ) ) );
 
 		if ( empty( $invd_sequence_no ) ) {
-			$invd_last_sequence_no   = edd_get_option( "invd_last_sequence_no" );
+			$invd_last_sequence_no   = (int) edd_get_option( "invd_last_sequence_no" );
 			$invd_last_sequence_year = (int) edd_get_option( "invd_last_sequence_year" );
 
 			if ( $invd_year > $invd_last_sequence_year ) {
@@ -102,7 +101,6 @@ final class Edd_Invoiced_Handler {
 		      $user["address"]["country"];
 
 		$invoice_no = edd_get_option( "edd_invd_prefix" ) . $invd_sequence_no . edd_get_option( "appendix" );
-
 		$data = array(
 			"from"     => edd_get_option( "edd_invd_from" ),
 			"to"       => $to,
@@ -111,7 +109,7 @@ final class Edd_Invoiced_Handler {
 			"date"     => date( get_option( 'date_format' ),
 				strtotime( edd_get_payment_completed_date( $payment_id ) ) ),
 			"items"    => $items,
-			"tax"      => edd_get_payment_tax( $payment_id ) * 100,
+			"tax"      => intval(edd_get_payment_tax( $payment_id ) * 100 / edd_get_payment_subtotal($payment_id)),
 			"currency" => edd_get_currency(),
 			"fields"   => array(
 				"tax"       => "%",
