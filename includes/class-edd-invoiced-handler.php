@@ -97,6 +97,7 @@ final class Edd_Invoiced_Handler {
 		      "P.IVA / CF: " . $business_vat . "\n" .
 		      $user["email"] . "\n" .
 		      $user["address"]["line1"] . "\n" .
+		      $user["address"]["line2"] . "\n" .
 		      $user["address"]["city"] . " - " . $user["address"]["state"] . " - " . $user["address"]["zip"] . "\n" .
 		      $user["address"]["country"];
 
