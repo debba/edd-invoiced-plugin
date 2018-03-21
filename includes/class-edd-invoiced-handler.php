@@ -56,8 +56,8 @@ final class Edd_Invoiced_Handler {
 		$invd_year        = (int) date( "Y", strtotime( edd_get_payment_completed_date( $payment_id ) ) );
 
 		if ( empty( $invd_sequence_no ) ) {
-			$invd_last_sequence_no   = (int) edd_get_option( "invd_last_sequence_no" );
-			$invd_last_sequence_year = (int) edd_get_option( "invd_last_sequence_year" );
+			$invd_last_sequence_no   = edd_get_option( "invd_last_sequence_no", 0 );
+			$invd_last_sequence_year = edd_get_option( "invd_last_sequence_year", 0 );
 
 			if ( $invd_year > $invd_last_sequence_year ) {
 				edd_update_option( "invd_last_sequence_no", 1 );
@@ -65,8 +65,10 @@ final class Edd_Invoiced_Handler {
 				update_post_meta( $payment_id, "invd_sequence_no", 1 );
 				$invd_sequence_no = 1;
 			} else {
-				$new_invd_sequence_no = (int) $invd_last_sequence_no + 1;
+				$new_invd_sequence_no = $invd_last_sequence_no + 1;
 				update_post_meta( $payment_id, "invd_sequence_no", $new_invd_sequence_no );
+				edd_update_option( "invd_last_sequence_no", $new_invd_sequence_no );
+				edd_update_option( "invd_last_sequence_year", $invd_last_sequence_year );
 				$invd_sequence_no = $new_invd_sequence_no;
 			}
 
