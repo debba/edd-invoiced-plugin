@@ -1,5 +1,3 @@
-![Logo](https://image.ibb.co/jEDwiz/invoice_generator_sm.png)
-
 === EDD Invoiced Plugin ===
 
 Contributors: dueclic
