@@ -293,12 +293,6 @@ final class Edd_Invoiced_Handler {
 		<?php
 	}
 
-	function warning_edd() {
-		echo '<div id="message" class="error">';
-		echo '<p>Installalo</p>';
-		echo '</div>';
-	}
-
 	public function check_edd_installed() {
 		if ( ! is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
 			deactivate_plugins( EDD_INVOICE_FILE );
