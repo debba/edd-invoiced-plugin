@@ -34,7 +34,7 @@
 				array(
 					'id'   => $this->edd_invoice_setting_id('from'),
 					'name' => __('From', 'edd-invoiced-plugin'),
-					'desc' => __('Invoice info ', 'edd-invoiced-plugin'),
+					'desc' => __('Invoice info', 'edd-invoiced-plugin'),
 					'type' => 'textarea'
 				),
 				array(

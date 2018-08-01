@@ -32,10 +32,10 @@ final class Edd_Invoiced_Handler {
 
 	public function add_invoice_link( $row_actions = array(), EDD_Payment $payment = null ) {
 
-	    if (in_array($payment->status, array("publish", "complete"))) {
-		    $row_actions['invoice'] = '<a class="invoice-print" data-last="' . edd_get_option( "edd_invd_seq_order" ) . '" href="/wp-json/edd-invoice/pdf/' . $payment->ID . '">' . __( 'Invoice',
-				    'edd-invoiced-plugin' ) . '</a>';
-	    }
+		if ( in_array( $payment->status, array( "publish", "complete" ) ) ) {
+			$row_actions['invoice'] = '<a class="invoice-print" data-last="' . edd_get_option( "edd_invd_seq_order" ) . '" href="/wp-json/edd-invoice/pdf/' . $payment->ID . '">' . __( 'Invoice',
+					'edd-invoiced-plugin' ) . '</a>';
+		}
 
 		return $row_actions;
 	}
@@ -54,7 +54,7 @@ final class Edd_Invoiced_Handler {
 			return "Payment not valid";
 		}
 
-		$products = edd_get_payment_meta_cart_details( $payment_id );
+		$products         = edd_get_payment_meta_cart_details( $payment_id );
 		$invd_sequence_no = get_post_meta( $payment_id, "invd_sequence_no", true );
 		$invd_year        = (int) date( "Y", strtotime( edd_get_payment_completed_date( $payment_id ) ) );
 
@@ -85,7 +85,7 @@ final class Edd_Invoiced_Handler {
 			$items[] = array(
 				"name"      => $product["name"],
 				"quantity"  => $product["quantity"],
-				"unit_cost" => $product["item_price"]
+				"unit_cost" => $product["item_price"],
 			);
 			if ( isset( $product["discount"] ) && $product["discount"] > 0 ) {
 				$discount += $product["discount"];
@@ -96,7 +96,7 @@ final class Edd_Invoiced_Handler {
 		$customer_id  = edd_get_payment_customer_id( $payment_id );
 		$customer     = new EDD_Customer( $customer_id );
 		$business_vat = edd_get_payment_meta( $payment_id,
-			"_edd_payment_meta" )[ edd_get_option( "edd_invd_cf_field" ) ];
+			"_edd_payment_meta" )[edd_get_option( "edd_invd_cf_field" )];
 
 		$to = $customer->name . "\n" .
 		      "P.IVA / CF: " . $business_vat . "\n" .
@@ -107,7 +107,7 @@ final class Edd_Invoiced_Handler {
 		      $user["address"]["country"];
 
 		$invoice_no = edd_get_option( "edd_invd_prefix" ) . $invd_sequence_no . edd_get_option( "appendix" );
-		$data = array(
+		$data       = array(
 			"from"     => edd_get_option( "edd_invd_from" ),
 			"to"       => $to,
 			"logo"     => edd_get_option( "edd_invd_logo" ),
@@ -115,13 +115,13 @@ final class Edd_Invoiced_Handler {
 			"date"     => date( get_option( 'date_format' ),
 				strtotime( edd_get_payment_completed_date( $payment_id ) ) ),
 			"items"    => $items,
-			"tax"      => intval(edd_get_payment_tax( $payment_id ) * 100 / edd_get_payment_subtotal($payment_id)),
+			"tax"      => intval( edd_get_payment_tax( $payment_id ) * 100 / edd_get_payment_subtotal( $payment_id ) ),
 			"currency" => edd_get_currency(),
 			"fields"   => array(
 				"tax"       => "%",
 				"discounts" => ( $discount <= 0 ) ? false : true,
-				"shipping"  => false
-			)
+				"shipping"  => false,
+			),
 		);
 
 		if ( (int) edd_get_payment_tax( $payment_id ) === 0 && edd_get_shop_country() == "IT" ) {
@@ -133,7 +133,7 @@ final class Edd_Invoiced_Handler {
 			$invd = edd_get_option( "edd_invd_" . $trans );
 
 			if ( ! empty( $invd ) ) {
-				$data[ $trans ] = $invd;
+				$data[$trans] = $invd;
 			}
 
 		}
@@ -145,7 +145,7 @@ final class Edd_Invoiced_Handler {
 		$request = wp_remote_post( EDD_INVOICE_ENDPOINT, array(
 			'headers' => array( 'Content-Type' => 'application/json; charset=utf-8' ),
 			'body'    => json_encode( $data ),
-			'method'  => 'POST'
+			'method'  => 'POST',
 		) );
 
 		$filename = "invoice-" . $invoice_no . ".pdf";
@@ -172,8 +172,8 @@ final class Edd_Invoiced_Handler {
 				'methods'  => "GET",
 				'callback' => array( $this, 'get_invoice' ),
 				'args'     => array(
-					'id'
-				)
+					'id',
+				),
 			) );
 		}
 	}
@@ -201,7 +201,7 @@ final class Edd_Invoiced_Handler {
 		$payments = edd_get_payments( array(
 			"order"  => "ASC",
 			"number" => - 1,
-			"status" => "publish"
+			"status" => "publish",
 		) );
 
 		$date     = null;
@@ -209,7 +209,7 @@ final class Edd_Invoiced_Handler {
 
 		$history_payments = array(
 			"payments" => array(),
-			"stats"    => array()
+			"stats"    => array(),
 		);
 
 		foreach ( $payments as $payment ) {
@@ -233,7 +233,7 @@ final class Edd_Invoiced_Handler {
 			$history_payments["payments"][] = array(
 				"seq_no"   => $position,
 				"seq_year" => $year,
-				"dwl"      => false
+				"dwl"      => false,
 			);
 
 		}
@@ -245,13 +245,13 @@ final class Edd_Invoiced_Handler {
 		$history_payments["stats"] = array(
 			"start_sync"    => 1,
 			"last_seq_no"   => $position,
-			"last_seq_year" => $year
+			"last_seq_year" => $year,
 		);
 
 		die(
 		wp_json_encode( array(
 			"type"    => "success",
-			"history" => $history_payments
+			"history" => $history_payments,
 		) )
 		);
 
@@ -310,18 +310,89 @@ final class Edd_Invoiced_Handler {
 	}
 
 	public function footer_text() {
-		return __('This plugin is powered by', 'edd-invoiced-plugin').' <a href="https://www.dueclic.com/" target="_blank">dueclic</a>. <a class="social-foot" href="https://www.facebook.com/dueclic/"><span style="text-decoration:none !important;" class="dashicons dashicons-facebook bg-fb"></span></a>';
+		return __( 'This plugin is powered by', 'edd-invoiced-plugin' ) . ' <a href="https://www.dueclic.com/" target="_blank">dueclic</a>. <a class="social-foot" href="https://www.facebook.com/dueclic/"><span style="text-decoration:none !important;" class="dashicons dashicons-facebook bg-fb"></span></a>';
 	}
 
-	public function dueclic_copyright(){
-		add_filter('admin_footer_text', array($this, 'footer_text'), 11);
+	public function dueclic_copyright() {
+		add_filter( 'admin_footer_text', array( $this, 'footer_text' ), 11 );
 	}
 
 	public function plugin_add_settings_link( $links ) {
 		$settings_link = '<a href="' . admin_url( "edit.php?post_type=download&page=edd-settings&tab=extensions&section=invoices" ) . '">' . __( "General Settings", "edd-invoiced-plugin" ) . '</a>';
-		$links = array_merge(array($settings_link), $links);
+		$links         = array_merge( array( $settings_link ), $links );
 
 		return $links;
+	}
+
+	public function invoiced_metaboxes( $payment_id ) {
+
+	    $payment = edd_get_payment($payment_id);
+
+	    if (!in_array($payment->status, array("publish", "complete"))){
+	        return;
+        }
+
+		?>
+        <div id="edd-order-invoiced" class="postbox edd-order-invoiced">
+
+            <h3 class="hndle">
+                <span><?php _e( 'Invoice', 'edd-invoiced-plugin' ); ?></span>
+            </h3>
+            <div class="inside">
+                <div class="edd-admin-box">
+
+                    <div class="edd-admin-box-inside">
+
+                        <div id="invoices">
+                            <div class="edd-admin-box-inside">
+                                <p>
+                                    <span class="label"><?php _e( 'Number', 'edd-invoiced-plugin' ); ?>:</span>
+                                    <input type="text" name="invd_sequence_no"
+                                           value="<?php echo get_post_meta( $payment_id, "invd_sequence_no", true ); ?>"
+                                           class="medium-text">
+                                </p>
+                            </div>
+                            <div class="edd-admin-box-inside">
+                                <p>
+                                    <span class="label"><?php _e( 'Year', 'edd-invoiced-plugin' ); ?>:</span>
+                                    <input type="text" name="invd_sequence_year"
+                                           value="<?php echo get_post_meta( $payment_id, "invd_sequence_year", true ); ?>"
+                                           class="medium-text">
+                                </p>
+                            </div>
+                            <div class="edd-admin-box-inside">
+                                <p>
+                                    <span class="label"><?php _e( 'Last number', 'edd-invoiced-plugin' ); ?>:</span>
+                                    <input type="text" name="invd_last_sequence_no"
+                                           value="<?php echo edd_get_option( "invd_last_sequence_no" ); ?>"
+                                           class="medium-text">
+                                </p>
+                            </div>
+                            <input type="submit" class="button button-primary right"
+                                   value="<?php esc_attr_e( 'Update invoice', 'edd-invoiced-plugin' ); ?>"/>
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+		<?php
+	}
+
+	public function save_maybe_edd_invoice( $payment_id, $payment, $update ) {
+		if ( isset( $_POST["invd_sequence_year"] ) ) {
+			update_post_meta( $payment_id, "invd_sequence_year", $_POST["invd_sequence_year"] );
+		}
+		if ( isset( $_POST["invd_sequence_no"] ) ) {
+			update_post_meta( $payment_id, "invd_sequence_no", $_POST["invd_sequence_no"] );
+		}
+		if ( isset( $_POST["invd_last_sequence_no"] ) ) {
+			edd_update_option( "invd_last_sequence_no", $_POST["invd_last_sequence_no"] );
+		}
 	}
 
 	public function hooks() {
@@ -331,7 +402,7 @@ final class Edd_Invoiced_Handler {
 		if ( ! empty( $start_sync ) ) {
 			add_filter( 'edd_settings_sections_extensions', array( $this->settings, 'section' ), 10, 1 );
 			add_filter( 'edd_settings_extensions', array( $this->settings, 'extension' ) );
-			add_action('edd_settings_tab_bottom_extensions_invoices', array($this->settings, 'add_content'));
+			add_action( 'edd_settings_tab_bottom_extensions_invoices', array( $this->settings, 'add_content' ) );
 			add_filter( "edd_payment_row_actions", array( $this, 'add_invoice_link' ), 10, 2 );
 			add_action( 'rest_api_init', array( $this, 'rest_api' ) );
 		} else {
@@ -340,11 +411,14 @@ final class Edd_Invoiced_Handler {
 			add_action( "admin_head", array( $this, "add_js_script" ) );
 		}
 
-		add_action("ei_footer_copyright", array($this, 'dueclic_copyright'));
+		add_action( "edd_view_order_details_sidebar_after", array( $this, "invoiced_metaboxes" ), 10, 1 );
+		add_action( "save_post_edd_payment", array( $this, "save_maybe_edd_invoice" ), 10, 3 );
+
+		add_action( "ei_footer_copyright", array( $this, 'dueclic_copyright' ) );
 		register_activation_hook( EDD_INVOICE_FILE, array( $this, 'check_edd_installed' ) );
 		add_filter( "plugin_action_links_" . plugin_basename( EDD_INVOICE_FILE ), array(
 			$this,
-			'plugin_add_settings_link'
+			'plugin_add_settings_link',
 		) );
 
 	}
