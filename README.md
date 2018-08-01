@@ -1,4 +1,5 @@
 === EDD Invoiced Plugin ===
+
 Contributors: dueclic
 Tags: invoice, generator, edd, easy digital downloads, pdf
 Requires at least: 4.7.4
