@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Invoice generator for EDD using invoice-generator.com
+Invoice generator for EDD WordPress plugin using invoice-generator.com
 
 == Description ==
 
