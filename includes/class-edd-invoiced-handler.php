@@ -31,8 +31,11 @@ final class Edd_Invoiced_Handler {
 	}
 
 	public function add_invoice_link( $row_actions = array(), EDD_Payment $payment = null ) {
-		$row_actions['invoice'] = '<a class="invoice-print" data-last="' . edd_get_option( "edd_invd_seq_order" ) . '" href="/wp-json/edd-invoice/pdf/' . $payment->ID . '">' . __( 'Invoice',
-				'edd-invoiced-plugin' ) . '</a>';
+
+	    if (in_array($payment->status, array("publish", "complete"))) {
+		    $row_actions['invoice'] = '<a class="invoice-print" data-last="' . edd_get_option( "edd_invd_seq_order" ) . '" href="/wp-json/edd-invoice/pdf/' . $payment->ID . '">' . __( 'Invoice',
+				    'edd-invoiced-plugin' ) . '</a>';
+	    }
 
 		return $row_actions;
 	}
