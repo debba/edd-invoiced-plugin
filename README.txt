@@ -1,4 +1,4 @@
-=== EDD PDF Invoice ===
+=== EDD PDF Invoice Generator ===
 
 Contributors: dueclic
 Tags: invoice, generator, edd, easy digital downloads, pdf
@@ -12,7 +12,7 @@ Invoice generator for EDD WordPress plugin using invoice-generator.com
 
 == Description ==
 
-EDD PDF Invoice allows you to make invoice with EDD using invoice-generator.com APIs.
+EDD PDF Invoice Generator allows you to make invoice with EDD using invoice-generator.com APIs.
 
 * **Easy Configuration**: install plugin and setup in a few seconds.
 * **Languages**: plugin is available in Italian and English languages.

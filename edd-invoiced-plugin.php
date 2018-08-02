@@ -1,8 +1,8 @@
 <?php
 
 /*
-Plugin Name:  EDD PDF Invoice
-Description: Invoice generator for EDD using invoice-generator.com
+Plugin Name:  EDD PDF Invoice Generator
+Description: PDF Invoice generator for EDD using invoice-generator.com
 Version: 1.0
 Author: dueclic
 Author URI: https://www.dueclic.com
