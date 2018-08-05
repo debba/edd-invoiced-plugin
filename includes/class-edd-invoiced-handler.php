@@ -391,29 +391,34 @@ final class Edd_Invoiced_Handler {
 
 	public function hooks() {
 
-		$start_sync = edd_get_option( "invd_start_sync" );
-
-		if ( ! empty( $start_sync ) ) {
-			add_filter( 'edd_settings_sections_extensions', array( $this->settings, 'section' ), 10, 1 );
-			add_filter( 'edd_settings_extensions', array( $this->settings, 'extension' ) );
-			add_action( 'edd_settings_tab_bottom_extensions_invoices', array( $this->settings, 'add_content' ) );
-			add_filter( "edd_payment_row_actions", array( $this, 'add_invoice_link' ), 10, 2 );
-			add_action( 'rest_api_init', array( $this, 'rest_api' ) );
-		} else {
-			add_action( 'admin_notices', array( $this, 'check_sync' ) );
-			add_action( 'wp_ajax_edd_invd_sync_orders', array( $this, 'edd_invd_sync_orders' ) );
-			add_action( "admin_head", array( $this, "add_js_script" ) );
-		}
-
-		add_action( "edd_view_order_details_sidebar_after", array( $this, "invoiced_metaboxes" ), 10, 1 );
-		add_action( "save_post_edd_payment", array( $this, "save_maybe_edd_invoice" ), 10, 3 );
-
-		add_action( "ei_footer_copyright", array( $this, 'dueclic_copyright' ) );
 		register_activation_hook( EDD_INVOICE_FILE, array( $this, 'check_edd_installed' ) );
-		add_filter( "plugin_action_links_" . plugin_basename( EDD_INVOICE_FILE ), array(
-			$this,
-			'plugin_add_settings_link',
-		) );
+
+		if (is_plugin_active(EDD_INVOICE_FILE)) {
+
+			$start_sync = edd_get_option( "invd_start_sync" );
+
+			if ( ! empty( $start_sync ) ) {
+				add_filter( 'edd_settings_sections_extensions', array( $this->settings, 'section' ), 10, 1 );
+				add_filter( 'edd_settings_extensions', array( $this->settings, 'extension' ) );
+				add_action( 'edd_settings_tab_bottom_extensions_invoices', array( $this->settings, 'add_content' ) );
+				add_filter( "edd_payment_row_actions", array( $this, 'add_invoice_link' ), 10, 2 );
+				add_action( 'rest_api_init', array( $this, 'rest_api' ) );
+			} else {
+				add_action( 'admin_notices', array( $this, 'check_sync' ) );
+				add_action( 'wp_ajax_edd_invd_sync_orders', array( $this, 'edd_invd_sync_orders' ) );
+				add_action( "admin_head", array( $this, "add_js_script" ) );
+			}
+
+			add_action( "edd_view_order_details_sidebar_after", array( $this, "invoiced_metaboxes" ), 10, 1 );
+			add_action( "save_post_edd_payment", array( $this, "save_maybe_edd_invoice" ), 10, 3 );
+
+			add_action( "ei_footer_copyright", array( $this, 'dueclic_copyright' ) );
+			add_filter( "plugin_action_links_" . plugin_basename( EDD_INVOICE_FILE ), array(
+				$this,
+				'plugin_add_settings_link',
+			) );
+
+		}
 
 	}
 

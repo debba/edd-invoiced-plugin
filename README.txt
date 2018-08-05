@@ -4,7 +4,7 @@ Contributors: dueclic
 Tags: invoice, generator, edd, easy digital downloads, pdf
 Requires at least: 4.7.4
 Tested up to: 4.9.7
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,11 +27,19 @@ EDD PDF Invoice Generator allows you to make invoice with EDD using invoice-gene
 
 == Changelog ==
 
+= 1.1 =
+
+* Prevent fatal errors if Easy Digital Downloads is not installed.
+
 = 1.0 =
 
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1 =
+
+* Prevent fatal errors if Easy Digital Downloads is not installed.
 
 = 1.0 =
 
