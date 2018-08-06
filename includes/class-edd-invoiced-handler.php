@@ -128,6 +128,9 @@ final class Edd_Invoiced_Handler {
 			$data["terms"] = "Operazione esente iva art. 7 TER DPR  633/72 inversione contabile.";
 		}
 
+		$data["terms"] = apply_filters("edd_invoiced_terms", $data["terms"]);
+		$data["terms"] = apply_filters("edd_invoiced_terms_".strtolower(edd_get_shop_country()), $data["terms"]);
+
 		foreach ( $EDDINVTRANS as $trans => $value ) {
 
 			$invd = edd_get_option( "edd_invd_" . $trans );
@@ -393,7 +396,7 @@ final class Edd_Invoiced_Handler {
 
 		register_activation_hook( EDD_INVOICE_FILE, array( $this, 'check_edd_installed' ) );
 
-		if (is_plugin_active(EDD_INVOICE_FILE)) {
+		if (is_plugin_active(plugin_basename(EDD_INVOICE_FILE))) {
 
 			$start_sync = edd_get_option( "invd_start_sync" );
 
